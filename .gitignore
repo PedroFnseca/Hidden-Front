@@ -19,6 +19,7 @@
 # Libraries
 *.lib
 *.a
+!bin/allegro/lib/*.a
 *.la
 *.lo
 
