@@ -1,0 +1,5 @@
+BasedOnStyle: LLVM
+BreakBeforeBraces: Attach
+IndentWidth: 2
+TabWidth: 2
+UseTab: Never
