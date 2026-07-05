@@ -3,6 +3,8 @@
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
+#include <allegro5/allegro_audio.h>
+#include <allegro5/allegro_acodec.h>
 
 bool init_engine(EngineContext *ctx, int width, int height, const char *title) {
   if (!al_init()) {
@@ -35,6 +37,21 @@ bool init_engine(EngineContext *ctx, int width, int height, const char *title) {
     return false;
   }
 
+  if (!al_install_audio()) {
+    fprintf(stderr, "Failed to initialize audio addon!\n");
+    return false;
+  }
+
+  if (!al_init_acodec_addon()) {
+    fprintf(stderr, "Failed to initialize acodec addon!\n");
+    return false;
+  }
+
+  if (!al_reserve_samples(16)) {
+    fprintf(stderr, "Failed to reserve audio samples!\n");
+    return false;
+  }
+
   al_set_new_display_flags(ALLEGRO_FULLSCREEN_WINDOW);
   ctx->display = al_create_display(width, height);
   if (!ctx->display) {
@@ -55,11 +72,13 @@ bool init_engine(EngineContext *ctx, int width, int height, const char *title) {
   al_register_event_source(ctx->event_queue, al_get_mouse_event_source());
 
   init_font_manager(&ctx->font_manager);
+  init_audio_manager(&ctx->audio_manager);
 
   return true;
 }
 
 void cleanup_engine(EngineContext *ctx) {
+  cleanup_audio_manager(&ctx->audio_manager);
   cleanup_font_manager(&ctx->font_manager);
 
   if (ctx->event_queue) {
