@@ -1,5 +1,6 @@
 #include "home.h"
 #include "../ui/button.h"
+#include "../ui/version_overlay.h"
 #include "../core/color_manager.h"
 #include <allegro5/allegro_image.h>
 #include <stdio.h>
@@ -61,6 +62,7 @@ void run_home_scene(GameContext *ctx) {
           }
         }
       }
+      draw_version_overlay(&ctx->engine.font_manager);
       al_flip_display();
     }
   }

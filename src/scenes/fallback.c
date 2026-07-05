@@ -1,5 +1,6 @@
 #include "fallback.h"
 #include "../ui/button.h"
+#include "../ui/version_overlay.h"
 #include "../core/color_manager.h"
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_ttf.h>
@@ -48,6 +49,7 @@ void run_fallback_scene(GameContext *ctx) {
         running = false;
       }
 
+      draw_version_overlay(&ctx->engine.font_manager);
       al_flip_display();
     }
   }

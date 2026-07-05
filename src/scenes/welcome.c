@@ -1,5 +1,6 @@
 #include "welcome.h"
 #include "../core/color_manager.h"
+#include "../ui/version_overlay.h"
 #include <allegro5/allegro_image.h>
 #include <stdio.h>
 
@@ -13,6 +14,7 @@ void run_welcome_scene(GameContext *ctx) {
 
   al_clear_to_color(get_color(COLOR_BACKGROUND));
   al_draw_bitmap(welcome_image, 0, 0, 0);
+  draw_version_overlay(&ctx->engine.font_manager);
   al_flip_display();
 
   al_rest(WELCOME_SCREEN_TIME);
