@@ -1,0 +1,52 @@
+name: Build & Release
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/version.h'
+
+jobs:
+  release:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Extract version
+        id: version
+        shell: pwsh
+        run: |
+          $content = Get-Content "src/version.h" -Raw
+          $version = [regex]::Match($content, '#define GAME_VERSION "([^"]+)"').Groups[1].Value
+          echo "VERSION=$version" >> $env:GITHUB_OUTPUT
+
+      - name: Setup MinGW
+        uses: egor-tensin/setup-mingw@v2
+        with:
+          platform: x64
+
+      - name: Compile
+        shell: pwsh
+        run: |
+          $srcs = Get-ChildItem -Path "src" -Filter "*.c" -Recurse | ForEach-Object { $_.FullName }
+          $cflags = "-I`"bin/allegro/include`""
+          $ldflags = "-L`"bin/allegro/lib`" -lallegro -lallegro_font -lallegro_ttf -lallegro_image -lallegro_primitives -lallegro_audio -lallegro_acodec -lallegro_dialog -lallegro_main"
+          $cmd = "gcc $($srcs -join ' ') -o bin/game.exe $cflags $ldflags"
+          Invoke-Expression $cmd
+
+      - name: Package
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path "release"
+          Copy-Item "bin/game.exe" "release/"
+          Copy-Item "bin/*.dll" "release/"
+          Copy-Item -Recurse "assets" "release/assets"
+          Compress-Archive -Path "release/*" -DestinationPath "HiddenFront-v${{ steps.version.outputs.VERSION }}.zip"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.version.outputs.VERSION }}
+          name: Hidden Front v${{ steps.version.outputs.VERSION }}
+          files: HiddenFront-v${{ steps.version.outputs.VERSION }}.zip
+          generate_release_notes: true
