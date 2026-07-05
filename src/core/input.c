@@ -7,10 +7,12 @@ void update_mouse_state(MouseState *mouse_state, ALLEGRO_EVENT *event) {
   } else if (event->type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN) {
     if (event->mouse.button == 1) {
       mouse_state->clicked = true;
+      mouse_state->is_down = true;
     }
   } else if (event->type == ALLEGRO_EVENT_MOUSE_BUTTON_UP) {
     if (event->mouse.button == 1) {
       mouse_state->clicked = false;
+      mouse_state->is_down = false;
     }
   }
 }

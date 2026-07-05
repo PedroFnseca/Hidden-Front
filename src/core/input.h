@@ -8,6 +8,7 @@ typedef struct {
   int x;
   int y;
   bool clicked;
+  bool is_down;
 } MouseState;
 
 typedef struct {
