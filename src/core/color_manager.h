@@ -1,0 +1,22 @@
+#ifndef COLOR_MANAGER_H
+#define COLOR_MANAGER_H
+
+#include <allegro5/allegro.h>
+
+typedef enum {
+  COLOR_BACKGROUND,
+  COLOR_PANEL,
+  COLOR_BORDER,
+  COLOR_PRIMARY_ACCENT,
+  COLOR_SECONDARY_ACCENT,
+  COLOR_DANGER,
+  COLOR_SUCCESS,
+  COLOR_TEXT_PRIMARY,
+  COLOR_TEXT_SECONDARY,
+  COLOR_TEXT_DISABLED,
+  COLOR_TEXT_HIGHLIGHT
+} color_id_t;
+
+ALLEGRO_COLOR get_color(color_id_t id);
+
+#endif 
