@@ -15,6 +15,8 @@ static const char* get_sound_path(sound_effect_t effect) {
 
 void init_audio_manager(audio_manager_t *am) {
   am->sound_count = 0;
+  am->volume = 1.0f;
+  am->is_muted = false;
   for (int i = 0; i < MAX_LOADED_SOUNDS; i++) {
     am->loaded_sounds[i].sample = NULL;
   }
@@ -50,10 +52,21 @@ static ALLEGRO_SAMPLE* get_sample(audio_manager_t *am, sound_effect_t effect) {
 }
 
 void play_sound(audio_manager_t *am, sound_effect_t effect) {
+  if (am->is_muted) return;
   ALLEGRO_SAMPLE *sample = get_sample(am, effect);
   if (sample) {
-    al_play_sample(sample, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+    al_play_sample(sample, am->volume, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
   }
+}
+
+void set_volume(audio_manager_t *am, float volume) {
+  if (volume < 0.0f) volume = 0.0f;
+  if (volume > 1.0f) volume = 1.0f;
+  am->volume = volume;
+}
+
+void toggle_mute(audio_manager_t *am) {
+  am->is_muted = !am->is_muted;
 }
 
 void cleanup_audio_manager(audio_manager_t *am) {
