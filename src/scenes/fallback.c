@@ -2,6 +2,7 @@
 #include "../ui/button.h"
 #include "../ui/version_overlay.h"
 #include "../core/color_manager.h"
+#include "../core/audio_manager.h"
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_ttf.h>
 #include <stdio.h>
@@ -45,6 +46,7 @@ void run_fallback_scene(GameContext *ctx) {
       bool hover = draw_button(&back_btn, &ctx->info);
       if (hover && ctx->info.mouse_state.clicked) {
         ctx->info.mouse_state.clicked = false;
+        play_sound(&ctx->engine.audio_manager, SOUND_MOUSE_CLICK);
         pop_scene(&ctx->scene_manager);
         running = false;
       }

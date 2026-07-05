@@ -2,6 +2,7 @@
 #include "../ui/button.h"
 #include "../ui/version_overlay.h"
 #include "../core/color_manager.h"
+#include "../core/audio_manager.h"
 #include <allegro5/allegro_image.h>
 #include <stdio.h>
 
@@ -53,6 +54,7 @@ void run_home_scene(GameContext *ctx) {
         bool hover = draw_button(&btns[i], &ctx->info);
         if (hover && ctx->info.mouse_state.clicked) {
           ctx->info.mouse_state.clicked = false;
+          play_sound(&ctx->engine.audio_manager, SOUND_MOUSE_CLICK);
           if (i == HOME_NUM_BUTTONS - 1) {
             pop_scene(&ctx->scene_manager);
             running = false;
