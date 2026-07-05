@@ -21,22 +21,18 @@ jobs:
           $version = [regex]::Match($content, '#define GAME_VERSION "([^"]+)"').Groups[1].Value
           echo "VERSION=$version" >> $env:GITHUB_OUTPUT
 
-      - name: Setup MinGW
-        shell: pwsh
-        run: |
-          choco upgrade mingw -y --no-progress
-          echo "C:\ProgramData\mingw64\mingw64\bin" >> $env:GITHUB_PATH
+      - name: Setup MSYS2 (MINGW32)
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: MINGW32
+          update: false
+          install: mingw-w64-i686-gcc
 
       - name: Compile
-        shell: pwsh
+        shell: msys2 {0}
         run: |
-          $root = $env:GITHUB_WORKSPACE
-          $srcs = Get-ChildItem -Path "$root/src" -Filter "*.c" -Recurse | ForEach-Object { $_.FullName }
-          $cflags = "-I`"$root/bin/allegro/include`""
-          $ldflags = "-L`"$root/bin/allegro/lib`" -lallegro -lallegro_font -lallegro_ttf -lallegro_image -lallegro_primitives -lallegro_audio -lallegro_acodec -lallegro_dialog -lallegro_main"
-          $cmd = "gcc $($srcs -join ' ') -o `"$root/bin/game.exe`" $cflags $ldflags"
-          Write-Host "Running: $cmd"
-          Invoke-Expression $cmd
+          srcs=$(find src -name '*.c')
+          gcc $srcs -o bin/game.exe -Ibin/allegro/include -Lbin/allegro/lib -lallegro -lallegro_font -lallegro_ttf -lallegro_image -lallegro_primitives -lallegro_audio -lallegro_acodec -lallegro_dialog -lallegro_main
 
       - name: Package
         shell: pwsh
