@@ -3,10 +3,10 @@
 
 static const char* get_font_path(font_weight_t weight) {
   static const char* font_path_map[] = {
-    "assets/fonts/PixelifySans-Regular.ttf", // FONT_REGULAR
-    "assets/fonts/PixelifySans-Medium.ttf",  // FONT_MEDIUM
-    "assets/fonts/PixelifySans-SemiBold.ttf",// FONT_SEMIBOLD
-    "assets/fonts/PixelifySans-Bold.ttf"     // FONT_BOLD
+    "assets/fonts/PixelifySans-Regular.ttf",
+    "assets/fonts/PixelifySans-Medium.ttf",
+    "assets/fonts/PixelifySans-SemiBold.ttf",
+    "assets/fonts/PixelifySans-Bold.ttf"
   };
 
   if (weight < 0 || weight > FONT_BOLD) {
@@ -24,20 +24,17 @@ void init_font_manager(font_manager_t *fm) {
 }
 
 ALLEGRO_FONT* get_font(font_manager_t *fm, font_weight_t weight, int size) {
-  // Check cache
   for (int i = 0; i < fm->font_count; i++) {
     if (fm->loaded_fonts[i].weight == weight && fm->loaded_fonts[i].size == size) {
       return fm->loaded_fonts[i].font;
     }
   }
 
-  // Not found, check capacity
   if (fm->font_count >= MAX_LOADED_FONTS) {
     fprintf(stderr, "Font Manager Error: Max loaded fonts reached!\n");
     return NULL;
   }
 
-  // Load new font
   const char* path = get_font_path(weight);
   ALLEGRO_FONT *new_font = al_load_ttf_font(path, size, 0);
 
@@ -46,7 +43,6 @@ ALLEGRO_FONT* get_font(font_manager_t *fm, font_weight_t weight, int size) {
     return NULL;
   }
 
-  // Add to cache
   fm->loaded_fonts[fm->font_count].weight = weight;
   fm->loaded_fonts[fm->font_count].size = size;
   fm->loaded_fonts[fm->font_count].font = new_font;
