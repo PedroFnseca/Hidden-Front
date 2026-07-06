@@ -1,0 +1,17 @@
+WELCOME_TITLE Hidden Front
+PRESS_START Pressione para iniciar
+HOME_PLAY Jogar
+HOME_MULTIPLAYER Multiplayer
+HOME_SETTINGS Configuracoes
+HOME_CREDITS Creditos
+HOME_QUIT Sair
+SETTINGS_TITLE Configuracoes
+MUTE_AUDIO Mutar Audio
+YES SIM
+NO NAO
+VOLUME Volume
+LANGUAGE Idioma
+BACK Voltar
+CREDITS_TITLE Creditos
+CREDITS_AUTHOR Criado por: Pedro Fonseca
+FALLBACK_MESSAGE Esta tela esta em desenvolvimento.

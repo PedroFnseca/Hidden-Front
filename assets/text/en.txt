@@ -1,0 +1,17 @@
+WELCOME_TITLE Hidden Front
+PRESS_START Press anywhere to start
+HOME_PLAY Play
+HOME_MULTIPLAYER Multiplayer
+HOME_SETTINGS Settings
+HOME_CREDITS Credits
+HOME_QUIT Quit
+SETTINGS_TITLE Settings
+MUTE_AUDIO Mute Audio
+YES YES
+NO NO
+VOLUME Volume
+LANGUAGE Language
+BACK Back
+CREDITS_TITLE Credits
+CREDITS_AUTHOR Created by: Pedro Fonseca
+FALLBACK_MESSAGE This scene is under development.
