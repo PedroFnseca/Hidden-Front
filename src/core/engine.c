@@ -73,11 +73,20 @@ bool init_engine(EngineContext *ctx, int width, int height, const char *title) {
 
   init_font_manager(&ctx->font_manager);
   init_audio_manager(&ctx->audio_manager);
+  
+  init_config_manager(&ctx->config_manager);
+  init_localization_manager(&ctx->localization_manager, ctx->config_manager.data.language);
+
+  set_volume(&ctx->audio_manager, ctx->config_manager.data.volume);
+  if (ctx->config_manager.data.is_muted) {
+    toggle_mute(&ctx->audio_manager);
+  }
 
   return true;
 }
 
 void cleanup_engine(EngineContext *ctx) {
+  cleanup_localization_manager(&ctx->localization_manager);
   cleanup_audio_manager(&ctx->audio_manager);
   cleanup_font_manager(&ctx->font_manager);
 
