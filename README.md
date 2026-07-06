@@ -30,6 +30,7 @@ Imagine medieval knights clashing against modern soldiers, samurais facing off w
 - [x] **🧩 Grid-Based Tactics**: Position your units on a tile-based map where terrain, range, and line of sight shape every decision.
 - [x] **🎯 Turn-Based Combat**: Plan your moves carefully; every turn counts when you're outmaneuvering your opponent.
 - [x] **👥 Multiplayer Matches**: Go head-to-head with other players in tactical duels.
+- [x] **🌍 Multi-language Support**: Play in English or Portuguese, with auto-detection of the system language. Configurations are automatically saved in `data/config.txt`.
 - [x] **🎨 Retro Pixel Art**: A beautiful pixel art aesthetic inspired by classic strategy games, with smooth animations and rich visual feedback.
 
 ---

@@ -16,6 +16,9 @@ project/
 │   ├── music/         # Background music
 │   └── shaders/       # Shader files (optional)
 │
+├── data/
+│   └── config.txt     # User configuration (language, volume, etc.)
+│
 ├── src/
 │   ├── core/          # Engine initialization and core systems
 │   ├── game/          # Game flow and match state
@@ -44,3 +47,4 @@ project/
 * When using constant values (like screen dimensions, timers, button sizes), use `#define` in the respective `.h` file to maintain organization and avoid magic numbers in `.c` files.
 * Always use `get_font` from the internal **Font Manager** (`font_manager_t`) to load `.ttf` files dynamically instead of manual loading, ensuring memory caching and auto-cleanup.
 * **Do not use `switch-case` statements.** Use hashmaps or lookup tables (arrays) to map states and values in `O(1)` time complexity for better performance.
+* **Localization and configuration:** Must use `LocalizationManager` for texts and `ConfigManager` for persisting settings. The localization implementation strictly uses `O(1)` array lookups instead of `switch-case`.
