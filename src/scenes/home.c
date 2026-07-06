@@ -58,6 +58,9 @@ void run_home_scene(GameContext *ctx) {
           if (i == HOME_NUM_BUTTONS - 1) {
             pop_scene(&ctx->scene_manager);
             running = false;
+          } else if (i == 2) {
+            push_scene(&ctx->scene_manager, APP_STATE_SETTINGS);
+            running = false;
           } else {
             push_scene(&ctx->scene_manager, APP_STATE_FALLBACK);
             running = false;

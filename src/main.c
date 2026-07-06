@@ -3,6 +3,7 @@
 #include "scenes/welcome.h"
 #include "scenes/home.h"
 #include "scenes/fallback.h"
+#include "scenes/settings.h"
 
 int main(int argc, char **argv) {
   GameContext ctx;
@@ -18,6 +19,7 @@ int main(int argc, char **argv) {
   void (*scene_map[])(GameContext*) = {
     run_welcome_scene,
     run_home_scene,
+    run_settings_scene,
     run_fallback_scene
   };
 
