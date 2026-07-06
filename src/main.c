@@ -4,6 +4,7 @@
 #include "scenes/home.h"
 #include "scenes/fallback.h"
 #include "scenes/settings.h"
+#include "scenes/credits.h"
 
 int main(int argc, char **argv) {
   GameContext ctx;
@@ -20,6 +21,7 @@ int main(int argc, char **argv) {
     run_welcome_scene,
     run_home_scene,
     run_settings_scene,
+    run_credits_scene,
     run_fallback_scene
   };
 

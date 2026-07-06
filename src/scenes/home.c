@@ -61,6 +61,9 @@ void run_home_scene(GameContext *ctx) {
           } else if (i == 2) {
             push_scene(&ctx->scene_manager, APP_STATE_SETTINGS);
             running = false;
+          } else if (i == 3) {
+            push_scene(&ctx->scene_manager, APP_STATE_CREDITS);
+            running = false;
           } else {
             push_scene(&ctx->scene_manager, APP_STATE_FALLBACK);
             running = false;
