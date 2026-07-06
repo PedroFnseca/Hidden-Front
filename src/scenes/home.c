@@ -20,7 +20,13 @@ void run_home_scene(GameContext *ctx) {
   }
 
   struct Button btns[HOME_NUM_BUTTONS];
-  const char *labels[] = {"Jogar", "Multiplayer", "Configuracoes", "Creditos", "SAIR"};
+  const char *labels[] = {
+    get_localized_string(&ctx->engine.localization_manager, STRING_HOME_PLAY),
+    get_localized_string(&ctx->engine.localization_manager, STRING_HOME_MULTIPLAYER),
+    get_localized_string(&ctx->engine.localization_manager, STRING_HOME_SETTINGS),
+    get_localized_string(&ctx->engine.localization_manager, STRING_HOME_CREDITS),
+    get_localized_string(&ctx->engine.localization_manager, STRING_HOME_QUIT)
+  };
 
   for (int i = 0; i < HOME_NUM_BUTTONS; i++) {
     btns[i].x = SCREEN_WIDTH / 2 - HOME_BTN_WIDTH / 2;

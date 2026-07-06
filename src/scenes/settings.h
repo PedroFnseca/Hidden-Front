@@ -3,7 +3,7 @@
 
 #include "../game/context.h"
 
-#define SETTINGS_NUM_BUTTONS 2
+#define SETTINGS_NUM_BUTTONS 3
 #define SETTINGS_BTN_START_Y 500
 #define SETTINGS_BTN_WIDTH 400
 #define SETTINGS_BTN_HEIGHT 60

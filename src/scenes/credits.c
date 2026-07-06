@@ -47,7 +47,7 @@ void run_credits_scene(GameContext *ctx) {
   back_btn.background_color = get_color(COLOR_PANEL);
   back_btn.font_color = get_color(COLOR_TEXT_PRIMARY);
   back_btn.font = btn_font;
-  back_btn.text = "Voltar";
+  back_btn.text = (char*)get_localized_string(&ctx->engine.localization_manager, STRING_BACK);
 
   bool running = true;
   float scroll_y = 0;

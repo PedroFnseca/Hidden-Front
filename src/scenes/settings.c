@@ -21,8 +21,9 @@ void run_settings_scene(GameContext *ctx) {
   }
 
   struct Button btns[SETTINGS_NUM_BUTTONS];
-  char mute_text[32];
-  char vol_text[32];
+  char mute_text[64];
+  char vol_text[64];
+  char lang_text[64];
   
   btns[0].x = SCREEN_WIDTH / 2 - SETTINGS_BTN_WIDTH / 2;
   btns[0].y = SETTINGS_BTN_START_Y;
@@ -43,7 +44,6 @@ void run_settings_scene(GameContext *ctx) {
   vol_slider.fill_color = get_color(COLOR_PRIMARY_ACCENT);
   vol_slider.font_color = get_color(COLOR_TEXT_PRIMARY);
   vol_slider.font = font;
-  
   vol_slider.is_dragging = false;
   
   btns[1].x = SCREEN_WIDTH / 2 - SETTINGS_BTN_WIDTH / 2;
@@ -54,6 +54,15 @@ void run_settings_scene(GameContext *ctx) {
   btns[1].background_color = get_color(COLOR_PANEL);
   btns[1].font_color = get_color(COLOR_TEXT_PRIMARY);
   btns[1].font = font;
+
+  btns[2].x = SCREEN_WIDTH / 2 - SETTINGS_BTN_WIDTH / 2;
+  btns[2].y = SETTINGS_BTN_START_Y + 3 * SETTINGS_BTN_SPACING;
+  btns[2].width = SETTINGS_BTN_WIDTH;
+  btns[2].height = SETTINGS_BTN_HEIGHT;
+  btns[2].type = FILLED;
+  btns[2].background_color = get_color(COLOR_PANEL);
+  btns[2].font_color = get_color(COLOR_TEXT_PRIMARY);
+  btns[2].font = font;
 
   bool running = true;
   while (running) {
@@ -71,11 +80,20 @@ void run_settings_scene(GameContext *ctx) {
       if (bg) al_draw_bitmap(bg, 0, 0, 0);
       else al_clear_to_color(get_color(COLOR_BACKGROUND));
 
-      snprintf(mute_text, sizeof(mute_text), "Mutar Audio: %s", ctx->engine.audio_manager.is_muted ? "SIM" : "NAO");
-      snprintf(vol_text, sizeof(vol_text), "Volume: %.0f%%", vol_slider.value * 100);
+      const char *mute_str = get_localized_string(&ctx->engine.localization_manager, STRING_MUTE_AUDIO);
+      const char *yes_str = get_localized_string(&ctx->engine.localization_manager, STRING_YES);
+      const char *no_str = get_localized_string(&ctx->engine.localization_manager, STRING_NO);
+      snprintf(mute_text, sizeof(mute_text), "%s: %s", mute_str, ctx->engine.audio_manager.is_muted ? yes_str : no_str);
+      
+      const char *vol_str = get_localized_string(&ctx->engine.localization_manager, STRING_VOLUME);
+      snprintf(vol_text, sizeof(vol_text), "%s: %.0f%%", vol_str, vol_slider.value * 100);
+      
+      const char *lang_str = get_localized_string(&ctx->engine.localization_manager, STRING_LANGUAGE);
+      snprintf(lang_text, sizeof(lang_text), "%s: %s", lang_str, ctx->engine.localization_manager.current_language == LANG_EN ? "English" : "Portugues");
       
       btns[0].text = mute_text;
-      btns[1].text = "Voltar";
+      btns[1].text = (char*)lang_text;
+      btns[2].text = (char*)get_localized_string(&ctx->engine.localization_manager, STRING_BACK);
       vol_slider.text = vol_text;
 
       bool slider_released = draw_slider(&vol_slider, &ctx->info);
@@ -83,6 +101,8 @@ void run_settings_scene(GameContext *ctx) {
       
       if (slider_released) {
         play_sound(&ctx->engine.audio_manager, SOUND_MOUSE_CLICK);
+        ctx->engine.config_manager.data.volume = vol_slider.value;
+        save_config(&ctx->engine.config_manager);
       }
 
       for (int i = 0; i < SETTINGS_NUM_BUTTONS; i++) {
@@ -93,7 +113,14 @@ void run_settings_scene(GameContext *ctx) {
           
           if (i == 0) {
             toggle_mute(&ctx->engine.audio_manager);
+            ctx->engine.config_manager.data.is_muted = ctx->engine.audio_manager.is_muted;
+            save_config(&ctx->engine.config_manager);
           } else if (i == 1) {
+            SystemLanguage next_lang = (ctx->engine.localization_manager.current_language == LANG_EN) ? LANG_PT : LANG_EN;
+            set_language(&ctx->engine.localization_manager, next_lang);
+            ctx->engine.config_manager.data.language = next_lang;
+            save_config(&ctx->engine.config_manager);
+          } else if (i == 2) {
             pop_scene(&ctx->scene_manager);
             running = false;
           }
